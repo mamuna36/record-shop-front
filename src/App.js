@@ -1,26 +1,15 @@
+
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { Route } from 'react-router-dom';
+
+import RecordList  from './components/records/List';
+import UserList    from './components/users/List';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+  return <>
+    <Route path="/admin/records/" component={RecordList}/>
+    <Route path="/admin/users/"   component={UserList}/>
+  </>;
 }
 
 export default App;
