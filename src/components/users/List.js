@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 function List() {
   const [abgerufen,setAbgerufen] = React.useState(false);
@@ -9,7 +10,6 @@ function List() {
     .then( response => response.json() )
     .then( users => {
       setAbgerufen(true);
-      console.log(users);
       setDaten(users);
     })
   return (
@@ -17,10 +17,12 @@ function List() {
     { daten ? (
       daten.map( user => (
         <tr>
-        <td>{user.id}</td>
+        <td><Link to={`/admin/users/${user.id}`}>{user.id}</Link></td>
         <td>{user.firstName}</td>
         <td>{user.lastName}</td>
+        <td>{user.fullName}</td>
         <td>{user.email}</td>
+        <td>{user.password}</td>
         </tr>
          
          
