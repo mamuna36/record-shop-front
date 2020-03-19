@@ -17,8 +17,13 @@ function List() {
     { daten ? (
       daten.map( user => (
         <tr>
-        <td>{user.username}</td>
+        <td>{user.id}</td>
+        <td>{user.firstName}</td>
+        <td>{user.lastName}</td>
+        <td>{user.email}</td>
         </tr>
+         
+         
       ))
   ) : null }
   </table> )
