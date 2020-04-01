@@ -10,14 +10,13 @@ function List() {
   const [daten, setDaten] = React.useState(false);
   if (!abgerufen)
     fetch('/records/')
-      .then(response => response.json())
-      .then(records => {
-        setAbgerufen(true);
-        console.log(records);
-        setDaten(records);
-      })
+    .then(response => response.json())
+    .then(records => {
+      setAbgerufen(true);
+      console.log(records);
+      setDaten(records);
+    });
 
-  
   return (
     <Row className='mt-3 p-2'>
       <Col className="d-flex flex-wrap justify-content-center">
@@ -41,7 +40,6 @@ function List() {
               </Card.Body>
             </Card>
 
-        
       ))
         ) : null}
      </Col>
