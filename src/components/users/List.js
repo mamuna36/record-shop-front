@@ -137,11 +137,6 @@ function List() {
     <Row className='m-2' >
       <Col xs={12} className="d-flex flex-wrap justify-content-center ">
       { daten
-        .filter ( user => {
-          if ( meta.search ){
-            return user.fullName.match(meta.search)
-          } else return true;
-        })
         .map( user => (
           <div className='user-custom m-3'>
             <ul className='list-group'>
