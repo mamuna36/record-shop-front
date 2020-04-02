@@ -2,7 +2,10 @@
 import React from 'react';
 import '../../App.css'
 import { Link } from 'react-router-dom';
-import { Col, Row, Button, ButtonGroup, ButtonToolbar } from 'react-bootstrap'
+import {
+  Col, Row, Button, ButtonGroup, ButtonToolbar,
+  InputGroup, FormControl,
+} from 'react-bootstrap'
 
 function List() {
   const [abgerufen,setAbgerufen] = React.useState(false);
@@ -10,7 +13,8 @@ function List() {
 
   const [meta,setMeta] = React.useState({
     pageNumber:     0,
-    recordsPerPage: 4
+    recordsPerPage: 4,
+    search:         ''
   });
 
   if ( ! abgerufen )
@@ -53,6 +57,12 @@ function List() {
     }
   }
 
+  function quickSearch(e){
+    setMeta({ ...meta,
+      search: e.target.value
+    });
+  }
+
   return (
     <>
     <Row className='m-2' >
@@ -74,14 +84,25 @@ function List() {
             <Button onClick={changeNumberOfRecords(8)}>8</Button>
             <Button onClick={changeNumberOfRecords(25)}>25</Button>
             <Button onClick={changeNumberOfRecords(100)}>100</Button>
+            <Button onClick={changeNumberOfRecords(-1)}>ALL</Button>
           </ButtonGroup>
         </ButtonToolbar>
+
+        <InputGroup>
+          <FormControl name="search" value={meta.search} onChange={quickSearch}/>
+        </InputGroup>
       </Col>
     </Row>
     <Row className='m-2' >
       <Col xs={12} className="d-flex flex-wrap justify-content-center ">
       { daten ? (
-        daten.map( user => (
+        daten
+        .filter ( user => {
+          if ( meta.search ){
+            return user.fullName.match(meta.search)
+          } else return true;
+        })
+        .map( user => (
           <div className='user-custom m-3'>
             <ul className='list-group'>
               <span className='list-group-item list-group-item-dark list-group-item-action list-custom '>KILLER USER</span>
