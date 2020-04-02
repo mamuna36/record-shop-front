@@ -2,7 +2,7 @@
 import React from 'react';
 import '../../App.css'
 import { Link } from 'react-router-dom';
-import { Col, Row} from 'react-bootstrap'
+import { Col, Row, Button, ButtonGroup, ButtonToolbar } from 'react-bootstrap'
 
 function List() {
   const [abgerufen,setAbgerufen] = React.useState(false);
@@ -16,30 +16,66 @@ function List() {
   if ( ! abgerufen )
     fetch(`/users/?pageNumber=${meta.pageNumber}&recordsPerPage=${meta.recordsPerPage}`)
     .then( response => response.json() )
-    .then( users => {
+    .then( ({ list, count }) => {
       setAbgerufen(true);
-      setDaten(users);
+      setDaten(list);
+      setMeta({ ...meta, numberOfRecords: count });
     })
 
   const liClass = 'list-group-item list-group-item-dark list-group-item-action'
 
+  const numberOfPages = Math.floor(
+    meta.numberOfRecords / meta.recordsPerPage
+  );
+
+  function changePage(whichPage=0){
+    return (e) => {
+      const nextPage =
+        Math.min(
+          numberOfPages - 1,
+          Math.max(
+            0,
+            whichPage
+          )
+        );
+      setMeta({ ...meta, pageNumber: nextPage });
+      setAbgerufen(false);
+    }
+  }
+
+  function changeNumberOfRecords(howMany){
+    return (e) => {
+      setMeta({ ...meta,
+        recordsPerPage: howMany,
+        pageNumber: 0
+      });
+      setAbgerufen(false);
+    }
+  }
+
   return (
     <>
     <Row className='m-2' >
-      <Col xs={12} className="d-flex flex-wrap justify-content-center ">
-        <button onClick={
-          e => {
-            setMeta({ ...meta, pageNumber: meta.pageNumber-1})
-            setAbgerufen(false)
-          }
-        }>&lt;</button>
-        <b>{meta.pageNumber}</b>
-        <button onClick={
-          e => {
-            setMeta({ ...meta, pageNumber: meta.pageNumber+1})
-            setAbgerufen(false)
-          }
-        }>&gt;</button>
+      <Col xs={12} className="d-flex justify-content-center ">
+        <ButtonToolbar>
+          <ButtonGroup style={{marginRight:'1ch'}}>
+            <Button onClick={changePage(0)}>&lt;&lt;</Button>
+            <Button onClick={changePage(meta.pageNumber - 1)}>&lt;</Button>
+            <Button className="btn">
+              <b>
+                {meta.pageNumber + 1} of {numberOfPages}
+              </b>
+            </Button>
+            <Button onClick={changePage(meta.pageNumber + 1)}>&gt;</Button>
+            <Button onClick={changePage(numberOfPages)}>&gt;&gt;</Button>
+          </ButtonGroup>
+          <ButtonGroup>
+            <Button onClick={changeNumberOfRecords(4)}>4</Button>
+            <Button onClick={changeNumberOfRecords(8)}>8</Button>
+            <Button onClick={changeNumberOfRecords(25)}>25</Button>
+            <Button onClick={changeNumberOfRecords(100)}>100</Button>
+          </ButtonGroup>
+        </ButtonToolbar>
       </Col>
     </Row>
     <Row className='m-2' >
