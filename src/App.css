@@ -1,10 +1,13 @@
-body{
-    position: relative;
-    height: 100%;
-    background-image: url(./images/vinyl.jpeg);
-    background-size: cover;
-    background-repeat: no-repeat;
+.backdrop {
+  position: fixed;
+  top:0; left:0;
+  min-width:  100vw;
+  min-height: 100vh;
+  background-image: url(./images/vinyl.jpeg);
+  background-size: cover;
+  background-repeat: no-repeat;
 }
+
 .row-custom{
     height: 50px;
 }
@@ -52,5 +55,5 @@ li{
 
 .card-custom:hover{
     background-color: gray;
-    
+
 }

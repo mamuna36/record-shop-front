@@ -14,7 +14,7 @@ import FrontpageRecordList from './components/records/FrontpageList';
 
 function App() {
   return <Container fluid className='bg-container'>
-
+    <div class="backdrop">&nbsp;</div>
 
     <Row className='row-custom'>
       <Col className='d-flex flex-row justify-content-center'>

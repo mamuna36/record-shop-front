@@ -7,18 +7,28 @@ import {
   InputGroup, FormControl,
 } from 'react-bootstrap'
 
+const fieldNames = [ 'firstName','lastName','fullName','email' ];
+const sortFields = [ 'firstName','lastName','email' ];
+
 function List() {
   const [abgerufen,setAbgerufen] = React.useState(false);
   const [daten,setDaten]         = React.useState(false);
 
   const [meta,setMeta] = React.useState({
+    sortField:   'id',
+    sortOrder:      1,
     pageNumber:     0,
     recordsPerPage: 4,
     search:         ''
   });
 
   if ( ! abgerufen )
-    fetch(`/users/?pageNumber=${meta.pageNumber}&recordsPerPage=${meta.recordsPerPage}`)
+    fetch(
+      `/users/?pageNumber=${meta.pageNumber}&`+
+      `recordsPerPage=${meta.recordsPerPage}&`+
+      `sortField=${meta.sortField}&`+
+      `sortOrder=${meta.sortOrder}&`+
+      `search=${meta.search}`)
     .then( response => response.json() )
     .then( ({ list, count }) => {
       setAbgerufen(true);
@@ -26,11 +36,10 @@ function List() {
       setMeta({ ...meta, numberOfRecords: count });
     })
 
-  const liClass = 'list-group-item list-group-item-dark list-group-item-action'
-
-  const numberOfPages = Math.floor(
-    meta.numberOfRecords / meta.recordsPerPage
-  );
+  // rechne Anzahl der Seiten aus
+  const numberOfPages =
+    meta.recordsPerPage === -1 ? 1 : // sollen alle seitan angezeigt werden, gibt es nur eine Seite
+    Math.floor( meta.numberOfRecords / meta.recordsPerPage ); // Sonst rechnen :D
 
   function changePage(whichPage=0){
     return (e) => {
@@ -61,7 +70,28 @@ function List() {
     setMeta({ ...meta,
       search: e.target.value
     });
+    setAbgerufen(false);
   }
+
+  function changeSortField(whichField){
+    return (e)=> {
+      if ( meta.sortField !== whichField ){
+        setMeta({ ...meta,
+          sortField: whichField,
+          sortOrder: 1
+        });
+      } else {
+        setMeta({ ...meta,
+          sortOrder: meta.sortOrder * -1
+        });
+      }
+      setAbgerufen(false);
+    }
+  }
+
+  const liClass = 'list-group-item list-group-item-dark list-group-item-action'
+
+  if ( ! daten ) return null;
 
   return (
     <>
@@ -80,14 +110,25 @@ function List() {
             <Button onClick={changePage(numberOfPages)}>&gt;&gt;</Button>
           </ButtonGroup>
           <ButtonGroup>
-            <Button onClick={changeNumberOfRecords(4)}>4</Button>
-            <Button onClick={changeNumberOfRecords(8)}>8</Button>
-            <Button onClick={changeNumberOfRecords(25)}>25</Button>
-            <Button onClick={changeNumberOfRecords(100)}>100</Button>
-            <Button onClick={changeNumberOfRecords(-1)}>ALL</Button>
+            { [4,8,25,50,100].map( howMany =>
+              <Button onClick={changeNumberOfRecords(howMany)}>{howMany}</Button>
+            )}
+            <Button onClick={changeNumberOfRecords(-1)}>∞</Button>
           </ButtonGroup>
         </ButtonToolbar>
-
+      </Col>
+    </Row>
+    <Row className='m-2' >
+      <Col xs={12} className="d-flex justify-content-center ">
+        <ButtonGroup>
+          { sortFields.map( fieldName =>
+            <Button onClick={changeSortField(fieldName)}>{fieldName}</Button>
+          )}
+        </ButtonGroup>
+      </Col>
+    </Row>
+    <Row className='m-2' >
+      <Col xs={12} className="d-flex justify-content-center ">
         <InputGroup>
           <FormControl name="search" value={meta.search} onChange={quickSearch}/>
         </InputGroup>
@@ -95,8 +136,7 @@ function List() {
     </Row>
     <Row className='m-2' >
       <Col xs={12} className="d-flex flex-wrap justify-content-center ">
-      { daten ? (
-        daten
+      { daten
         .filter ( user => {
           if ( meta.search ){
             return user.fullName.match(meta.search)
@@ -106,17 +146,16 @@ function List() {
           <div className='user-custom m-3'>
             <ul className='list-group'>
               <span className='list-group-item list-group-item-dark list-group-item-action list-custom '>KILLER USER</span>
-              <li className={liClass}>{user.firstName}</li>
-              <li className={liClass}>{user.lastName} </li>
-              <li className={liClass}>{user.fullName} </li>
-              <li className={liClass}>{user.email}    </li>
+              { fieldNames.map( fieldName =>
+                <li className={liClass}>{user[fieldName]}</li>
+              )}
             </ul>
             <Link to={`/admin/users/${user.id}`} className="btn btn-dark btn-block">
                 EDIT
             </Link>
           </div>
         ))
-      ): null}
+      }
       </Col>
     </Row>
 </>
