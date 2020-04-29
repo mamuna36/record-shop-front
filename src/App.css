@@ -6,6 +6,7 @@
   background-image: url(./images/vinyl.jpeg);
   background-size: cover;
   background-repeat: no-repeat;
+  z-index: -1;
 }
 
 .row-custom{

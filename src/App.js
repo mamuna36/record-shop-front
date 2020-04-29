@@ -5,11 +5,13 @@ import './App.css'
 
 import { Container, Row, Col } from 'react-bootstrap'
 
-import RecordList from './components/records/List';
-import RecordEditor from './components/records/Editor'
-import RecordViewer from './components/records/Viewer'
-import UserEditor from './components/users/Editor';
-import UserList from './components/users/List';
+import Login               from './components/users/Login';
+import Register            from './components/users/Register';
+import RecordList          from './components/records/List';
+import RecordEditor        from './components/records/Editor'
+import RecordViewer        from './components/records/Viewer'
+import UserEditor          from './components/users/Editor';
+import UserList            from './components/users/List';
 import FrontpageRecordList from './components/records/FrontpageList';
 
 function App() {
@@ -23,10 +25,9 @@ function App() {
       </Col>
     </Row>
 
-
-
-
     <Switch>
+      <Route path="/login"             component={Login} />
+      <Route path="/register"          component={Register} />
       <Route path="/admin/records/:id" component={RecordEditor} />
       <Route path="/admin/records/"    component={RecordList} />
       <Route path="/admin/users/:id"   component={UserEditor} />
