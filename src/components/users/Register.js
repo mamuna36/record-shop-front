@@ -16,6 +16,7 @@ import {
 } from '@material-ui/core';
 
 import { makeStyles } from '@material-ui/core/styles';
+import { hashPassword } from '../../crypto';
 
 const useStyles = makeStyles( theme => ({
   paper:{
@@ -81,7 +82,7 @@ export default function(){
             firstName,
             lastName,
             email,
-            password,
+            password: hashPassword(field.password),
             address: {
               street,
               city

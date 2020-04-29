@@ -1,7 +1,6 @@
 
 import React    from 'react'
 import { Link, useHistory } from 'react-router-dom'
-
 import {
   Paper,
   TextField,
@@ -11,6 +10,7 @@ import {
 } from '@material-ui/core';
 
 import { makeStyles } from '@material-ui/core/styles';
+import { hashPassword } from '../../crypto';
 
 const useStyles = makeStyles( theme => ({
   paper:{
@@ -49,7 +49,10 @@ export default function(props){
           '/users/login', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({...field})
+            body: JSON.stringify({
+              email: field.email,
+              password: hashPassword(field.password)
+            })
         });
         // das auth token steht in dem http header x-auth
         // (siehe backend/controller/users.js:loginController)
