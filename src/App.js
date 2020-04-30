@@ -13,6 +13,8 @@ import RecordViewer        from './components/records/Viewer'
 import UserEditor          from './components/users/Editor';
 import UserList            from './components/users/List';
 import Activate            from './components/users/Activate';
+import Reset               from './components/users/Reset';
+import ResetPassword       from './components/users/ResetPassword';
 import FrontpageRecordList from './components/records/FrontpageList';
 
 import { IfAdmin } from './auth'
@@ -35,6 +37,8 @@ function App() {
     <Switch>
       <Route path="/login"             component={Login} />
       <Route path="/register"          component={Register} />
+      <Route path="/reset/:token"      component={ResetPassword} />
+      <Route path="/reset"             component={Reset} />
       <Route path="/activate/:token"   component={Activate} />
       <Route path="/admin/records/:id" component={RecordEditor} />
       <Route path="/admin/records/"    component={RecordList} />

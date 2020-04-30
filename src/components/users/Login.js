@@ -9,25 +9,9 @@ import {
   FormControlLabel,
 } from '@material-ui/core';
 
-import { makeStyles }   from '@material-ui/core/styles';
 import { hashPassword } from '../../crypto';
 import { withAuth }     from '../../auth';
-
-const useStyles = makeStyles( theme => ({
-  paper:{
-    padding:theme.spacing(1)
-  },
-  input:{
-    width:'100%'
-  },
-  wrapper:{
-    padding:theme.spacing(1)
-  },
-  error:{
-    padding: theme.spacing(1),
-    background: 'red'
-  }
-}));
+import useStyles        from './styles';
 
 export default withAuth(function(props){
 
@@ -91,7 +75,8 @@ export default withAuth(function(props){
         <br/>
         <Button style={{float:'right'}} variant="contained" color="primary" onClick={submit}>Anmelden</Button>
         <br/>
-        Noch kein Kunde? <Link to='/register'>Hier Registrieren</Link>
+        Noch kein Kunde? <Link to='/register'>Registrieren!</Link><br/>
+        Passwort vergessen? <Link to='/reset'>Anfordern!</Link>
       </Paper>
     </div> );
 })

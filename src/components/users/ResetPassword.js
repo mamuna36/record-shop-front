@@ -1,5 +1,5 @@
 
-import React    from 'react'
+import React from 'react'
 import { Link, useHistory } from 'react-router-dom'
 
 import {
@@ -16,30 +16,27 @@ import {
 } from '@material-ui/core';
 
 import { hashPassword } from '../../crypto';
-import useStyles from './styles';
+import useStyles        from './styles';
 
-export default function(){
+export default function({match}){
 
   const history = useHistory();
   const classes = useStyles();
 
+  // der paramter token kommt aus der react router
+  // da unsere url /activate/:token ist
+  const token = match.params.token;
+
   const [ showPassword, setShowPassword ] = React.useState(false);
-
-  const [ error, setError ] = React.useState(false);
-
-  const [ pwMatch,  setPwMatch ] = React.useState(false);
+  const [ error,        setError        ] = React.useState(false);
+  const [ pwMatch,      setPwMatch      ] = React.useState(false);
 
   const [field,setField] = React.useState({
-    firstName:'',
-    lastName:'',
-    email:'',
     password:'',
-    confirmPassword:'',
-    street:'',
-    city:''
+    confirmPassword:''
   });
 
-  const { firstName, lastName, email, password, confirmPassword, street, city } = field;
+  const { password, confirmPassword } = field;
 
   ValidatorForm.addValidationRule( 'isPasswordMatch', (value) => {
     return password === confirmPassword;
@@ -53,30 +50,22 @@ export default function(){
       default:                setPwMatch(password === confirmPassword);
     }
   }
-  const checkboxChange = e => setField({...field,remember:!field.remember});
 
   const submit = async e => {
     e.preventDefault()
     try {
       const resp = await fetch(
-        '/users/', {
-          method: 'POST',
+        `/users/changePassword/${token}`, {
+          method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            firstName,
-            lastName,
-            email,
             password: hashPassword(field.password),
-            address: {
-              street,
-              city
-            }
           })
       });
       if ( resp.status === 200 ){
-        history.push('/');
+        history.push('/login');
       } else {
-        setError(new Error('Benutzer Existiert'));
+        setError(new Error('Token ist ungültig!'));
       }
     } catch (e){
       console.log('@',e);
@@ -93,22 +82,6 @@ export default function(){
       { ! error ? null :
         <Paper className={classes.error}>{error.toString()}</Paper>
       }
-      <TextValidator
-        label="eMail" className={classes.input}
-        name="email" value={field.email} onChange={change}
-        validators={['required', 'isEmail']}
-        errorMessages={['this field is required', 'email is not valid']}
-      />
-      <TextValidator
-        label="Vorname" className={classes.input} name="firstName" value={field.firstName} onChange={change}
-        validators={['required']} errorMessages={['this field is required']}
-      />
-      <TextValidator
-        label="Nachname" className={classes.input} name="lastName"  value={field.lastName}  onChange={change}
-        validators={['required']} errorMessages={['this field is required']}
-      />
-      <TextValidator label="Strasse, Nr." className={classes.input} name="street" value={field.street} onChange={change} />
-      <TextValidator label="PLZ, Ort" className={classes.input} name="city" value={field.city} onChange={change} />
 
       <TextValidator
         label="Passwort" className={classes.input}
@@ -141,10 +114,10 @@ export default function(){
       <Button
         disabled={!pwMatch} style={{float:'right'}}
         variant="contained" color="primary"
-        type="submit">Registrieren</Button>
+        type="submit">Speichern</Button>
       <br/>
-      Schon Kunde? <Link to='/login'>Hier Anmelden</Link><br/>
-      Passwort vergessen? <Link to='/reset'>Anfordern!</Link>
+      Schon Kunde? <Link to='/login'>Anmelden!</Link><br/>
+      Noch kein Kunde? <Link to='/register'>Registrieren!</Link><br/>
       </ValidatorForm>
     </Paper>
   </div> );
