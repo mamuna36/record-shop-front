@@ -29,7 +29,9 @@ function CRUDList({
       `sortField=${meta.sortField}&`+
       `sortOrder=${meta.sortOrder}&`+
       `searchField=${meta.searchField}&`+
-      `search=${meta.search}`)
+      `search=${meta.search}`,{
+        headers:{'x-auth':window.AUTH_TOKEN}
+      })
     .then( response => response.json() )
     .then( ({ list, count }) => {
       setAbgerufen(true);
