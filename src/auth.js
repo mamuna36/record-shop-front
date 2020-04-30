@@ -57,10 +57,23 @@ export const IfAdmin = withAuth(
 
 export const IfGroup = withAuth(
   function({auth,authActions,children,group}){
-    console.log(auth);
     return auth &&
       auth.user &&
       auth.user.group &&
       auth.user.group.includes(group) ? children : null;
+  }
+)
+
+export const IfAuth = withAuth(
+  function({auth,authActions,children,group}){
+    return auth &&
+      auth.user &&
+      auth.verified ? children : null;
+  }
+)
+
+export const IfNotAuth = withAuth(
+  function({auth,authActions,children,group}){
+    return auth && auth.user && auth.verified ? null : children;
   }
 )

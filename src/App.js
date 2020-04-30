@@ -17,9 +17,10 @@ import Reset               from './components/users/Reset';
 import ResetPassword       from './components/users/ResetPassword';
 import FrontpageRecordList from './components/records/FrontpageList';
 
-import { IfAdmin } from './auth'
+import { IfAdmin, IfAuth, IfNotAuth, withAuth } from './auth'
 
-function App() {
+function App({auth,authActions}) {
+  const { firstName, lastName } = auth.user;
   return <Container fluid className='bg-container'>
     <div className="backdrop">&nbsp;</div>
 
@@ -33,6 +34,18 @@ function App() {
     <IfAdmin>
       <h1>Godmode</h1>
     </IfAdmin>
+
+    <div className="navbar">
+      <IfNotAuth>
+        <Link to="/login">Anmelden</Link>
+        <Link to="/register">Registrieren</Link>
+      </IfNotAuth>
+      <IfAuth>
+        <Link to="/profile">{firstName} {lastName}</Link>
+        <Link to="/orders">Bestellungen</Link>
+        <Link to="/logout">Abmelden</Link>
+      </IfAuth>
+    </div>
 
     <Switch>
       <Route path="/login"             component={Login} />
@@ -51,4 +64,4 @@ function App() {
   </Container>;
 }
 
-export default App;
+export default withAuth(App);
