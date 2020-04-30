@@ -9,8 +9,9 @@ import {
   FormControlLabel,
 } from '@material-ui/core';
 
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles }   from '@material-ui/core/styles';
 import { hashPassword } from '../../crypto';
+import { withAuth }     from '../../auth';
 
 const useStyles = makeStyles( theme => ({
   paper:{
@@ -28,7 +29,7 @@ const useStyles = makeStyles( theme => ({
   }
 }));
 
-export default function(props){
+export default withAuth(function(props){
 
     const history = useHistory();
     const classes = useStyles();
@@ -58,14 +59,8 @@ export default function(props){
         // (siehe backend/controller/users.js:loginController)
         const token = resp.headers.get('x-auth');
         if ( ! token ) throw new Error('login failed');
-        // auth token speichern (alle tabs)
-        if ( field.remember )
-             window.localStorage.setItem('token',token);
-        else window.localStorage.removeItem('token');
-        // auth token speichern (dieses tab)
-        window.AUTH_TOKEN = token;
-        const result = resp.json();
-        window.USER = await result;
+        const user = await resp.json();
+        props.authActions.success(user,token,field.remember);
         // auf startseite umleiten
         history.push('/');
       } catch (e){
@@ -99,4 +94,4 @@ export default function(props){
         Noch kein Kunde? <Link to='/register'>Hier Registrieren</Link>
       </Paper>
     </div> );
-}
+})

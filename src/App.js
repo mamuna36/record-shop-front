@@ -14,6 +14,8 @@ import UserEditor          from './components/users/Editor';
 import UserList            from './components/users/List';
 import FrontpageRecordList from './components/records/FrontpageList';
 
+import { IfAdmin } from './auth'
+
 function App() {
   return <Container fluid className='bg-container'>
     <div class="backdrop">&nbsp;</div>
@@ -24,6 +26,10 @@ function App() {
         <Link className='link' to="/admin/users/" ><div className='link col-custom'>Users</div></Link>
       </Col>
     </Row>
+
+    <IfAdmin>
+      <h1>Godmode</h1>
+    </IfAdmin>
 
     <Switch>
       <Route path="/login"             component={Login} />
