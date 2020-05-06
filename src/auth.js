@@ -62,8 +62,8 @@ export const IfAdmin = withAuth(
   function({auth,authActions,children}){
     return auth &&
       auth.user &&
-      auth.user.group &&
-      auth.user.group.includes('admin') ? children : null;
+      auth.user.role &&
+      auth.user.role ===  'Admin' ? children : null;
   }
 )
 
@@ -72,8 +72,8 @@ export const IfGroup = withAuth(
   function({auth,authActions,children,group}){
     return auth &&
       auth.user &&
-      auth.user.group &&
-      auth.user.group.includes(group) ? children : null;
+      auth.user.role &&
+      auth.user.role === group ? children : null;
   }
 )
 
@@ -107,7 +107,6 @@ withAuth(
       setLoading(true);
       // versuche aus localStorage einen gepseicherten auth-zustand zu laden
       const existingToken = localStorage.getItem('record-shop-auth-data');
-
       if ( existingToken ){
         // parse json aud sem sting aus localStorage und destrukturiere user daten
         const {user,token,verified,remember} = JSON.parse(existingToken);
