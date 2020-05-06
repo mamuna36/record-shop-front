@@ -48,15 +48,18 @@ function App({auth,authActions}) {
     </div>
 
     <Switch>
+      {/* Auth Kram */}
       <Route path="/login"             component={Login} />
       <Route path="/register"          component={Register} />
       <Route path="/reset/:token"      component={ResetPassword} />
       <Route path="/reset"             component={Reset} />
       <Route path="/activate/:token"   component={Activate} />
+      {/* Admin Kram */}
       <Route path="/admin/records/:id" component={RecordEditor} />
       <Route path="/admin/records/"    component={RecordList} />
       <Route path="/admin/users/:id"   component={UserEditor} />
       <Route path="/admin/users/"      component={UserList} />
+      {/* User Kram */}
       <Route path="/records/:id"       component={RecordViewer} />
       <Route path="/"                  component={FrontpageRecordList} />
     </Switch>

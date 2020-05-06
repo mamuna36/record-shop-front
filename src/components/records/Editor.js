@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Card, ListGroup, ListGroupItem, Row, Col, Button } from 'react-bootstrap'
 import gif from '../../images/gif.gif'
@@ -6,8 +7,8 @@ function Editor({ match}) {
   const id = match.params.id
   const [abgerufen,setAbgerufen] = React.useState(false);
   const [record,setDaten]        = React.useState(false);
-  
-  
+
+
 
   if ( ! abgerufen ){
     setAbgerufen(true)
@@ -17,8 +18,8 @@ function Editor({ match}) {
     }
     if (!record) return null
     console.log(record)
-    const change = e => setDaten( { 
-      ...record, 
+    const change = e => setDaten( {
+      ...record,
       [e.target.name]: e.target.value
     })
     const submit = e =>{
@@ -28,7 +29,7 @@ function Editor({ match}) {
         headers:{"Content-Type":"application/json"},
         body:JSON.stringify( record)})
         .then( response => response.json() )
-        .then( data => setDaten(data))    
+        .then( data => setDaten(data))
     }
 
     const remove = e =>{
@@ -56,7 +57,7 @@ function Editor({ match}) {
                <Button className="btn btn-danger" onClick={remove}>REMOVE</Button>
               </Card.Body>
             </Card>
-    
+
   )
 }
 

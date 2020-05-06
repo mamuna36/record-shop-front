@@ -10,22 +10,14 @@ import './index.css';
 
 import App from './App';
 
-import { createStore, combineReducers } from 'redux';
 import { Provider } from 'react-redux';
-import { authReducer } from './auth';
-
-const store = createStore(
-  combineReducers(
-    {
-      auth: authReducer
-    }
-  ),
-  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-)
+import store from './store.js';
+import { CheckAuth } from './auth';
 
 ReactDOM.render(
   <Provider store={store}>
     <BrowserRouter>
+      <CheckAuth/>
       <CssBaseline/>
       <App/>
     </BrowserRouter>
