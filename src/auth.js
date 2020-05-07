@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { connect } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 
 const defaultState = {
   verified: false,
@@ -11,7 +12,7 @@ const defaultState = {
 export function authReducer( state=defaultState, action ){
   switch ( action.type ) {
     case "auth:logout":
-      return { ...state, user:false, token:null, verified:false };
+      return { ...state, user:false, token:null, verified:false, remember:false };
     case "auth:login:success":
       const  { user, token, remember } = action;
       return { ...state, user, token, remember, verified:true };
@@ -46,8 +47,9 @@ export function mapAuthStateToProps(state){
 // für withAuth: Gibt die aktionen als prop weiter
 export function mapAuthActionsProps(dispatch){
   return { authActions: {
-    success: (user,token,remember)=>
-      dispatch({type:"auth:login:success",user,token,remember})
+    success:
+      (user,token,remember)=> dispatch({type:"auth:login:success",user,token,remember}),
+    logout:              ()=> dispatch({type:"auth:logout"}),
   }}
 }
 
@@ -125,6 +127,15 @@ withAuth(
         });
       }
     }
+    return null;
+  }
+);
+
+export const Logout = withAuth(
+  ({authActions})=> {
+    const history = useHistory();
+    authActions.logout();
+    history.push('/');
     return null;
   }
 );

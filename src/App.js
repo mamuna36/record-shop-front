@@ -19,7 +19,7 @@ import FrontpageRecordList from './components/records/FrontpageList';
 import BasketStatus        from './components/basket/BasketStatus';
 import Basket              from './components/basket/Basket';
 
-import { IfAdmin, IfAuth, IfNotAuth, withAuth } from './auth'
+import { IfAdmin, IfAuth, IfNotAuth, Logout, withAuth } from './auth'
 
 function App({auth,authActions}) {
   const { firstName, lastName } = auth.user;
@@ -27,15 +27,13 @@ function App({auth,authActions}) {
     <div className="backdrop">&nbsp;</div>
 
     <Row className='row-custom'>
-      <Col className='d-flex flex-row justify-content-center'>
-        <Link className='link' to="/admin/records/" ><div className='link col-custom'>Records</div></Link>
-        <Link className='link' to="/admin/users/" ><div className='link col-custom'>Users</div></Link>
-      </Col>
+      <IfAdmin>
+        <Col className='d-flex flex-row justify-content-center'>
+          <Link className='link' to="/admin/records/" ><div className='link col-custom'>Records</div></Link>
+          <Link className='link' to="/admin/users/" ><div className='link col-custom'>Users</div></Link>
+        </Col>
+      </IfAdmin>
     </Row>
-
-    <IfAdmin>
-      <h1>Godmode</h1>
-    </IfAdmin>
 
     <div className="navbar">
       <IfNotAuth>
@@ -53,6 +51,7 @@ function App({auth,authActions}) {
     <Switch>
       {/* Auth Kram */}
       <Route path="/login"             component={Login} />
+      <Route path="/logout"            component={Logout} />
       <Route path="/register"          component={Register} />
       <Route path="/reset/:token"      component={ResetPassword} />
       <Route path="/reset"             component={Reset} />
