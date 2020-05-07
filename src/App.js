@@ -18,6 +18,7 @@ import ResetPassword       from './components/users/ResetPassword';
 import FrontpageRecordList from './components/records/FrontpageList';
 import BasketStatus        from './components/basket/BasketStatus';
 import Basket              from './components/basket/Basket';
+import Thanks              from './components/basket/Thanks';
 
 import { IfAdmin, IfAuth, IfNotAuth, Logout, withAuth } from './auth'
 
@@ -63,6 +64,7 @@ function App({auth,authActions}) {
       {/* User Kram */}
       <Route path="/records/:id"       component={RecordViewer} />
       <Route path="/basket"            component={Basket} />
+      <Route path="/thanks"            component={Thanks} />
       <Route path="/"                  component={FrontpageRecordList} />
     </Switch>
 
