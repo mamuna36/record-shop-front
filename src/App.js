@@ -16,6 +16,8 @@ import Activate            from './components/users/Activate';
 import Reset               from './components/users/Reset';
 import ResetPassword       from './components/users/ResetPassword';
 import FrontpageRecordList from './components/records/FrontpageList';
+import BasketStatus        from './components/basket/BasketStatus';
+import Basket              from './components/basket/Basket';
 
 import { IfAdmin, IfAuth, IfNotAuth, withAuth } from './auth'
 
@@ -45,6 +47,7 @@ function App({auth,authActions}) {
         <Link to="/orders">Bestellungen</Link>
         <Link to="/logout">Abmelden</Link>
       </IfAuth>
+      <BasketStatus/>
     </div>
 
     <Switch>
@@ -61,6 +64,7 @@ function App({auth,authActions}) {
       <Route path="/admin/users/"      component={UserList} />
       {/* User Kram */}
       <Route path="/records/:id"       component={RecordViewer} />
+      <Route path="/basket"            component={Basket} />
       <Route path="/"                  component={FrontpageRecordList} />
     </Switch>
 

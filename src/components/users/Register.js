@@ -1,5 +1,6 @@
 
-import React    from 'react'
+import React                from 'react'
+import { useSelector }      from 'react-redux'
 import { Link, useHistory } from 'react-router-dom'
 
 import {
@@ -20,8 +21,9 @@ import useStyles from './styles';
 
 export default function(){
 
-  const history = useHistory();
-  const classes = useStyles();
+  const history      = useHistory();
+  const classes      = useStyles();
+  const authRequired = useSelector( state => state.basket.authRequired );
 
   const [ showPassword, setShowPassword ] = React.useState(false);
 
@@ -90,6 +92,11 @@ export default function(){
         onSubmit={submit}
         onError={e=>console.log(e)}
       >
+      { ! authRequired ? null :
+        <Paper className={classes.error}>
+          Um ihre Bestellung abschließen zu können...
+        </Paper>
+      }
       { ! error ? null :
         <Paper className={classes.error}>{error.toString()}</Paper>
       }

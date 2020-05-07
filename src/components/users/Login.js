@@ -1,6 +1,13 @@
 
-import React    from 'react'
+import React                from 'react'
+
+import {
+  useSelector,
+  useDispatch }
+from 'react-redux'
+
 import { Link, useHistory } from 'react-router-dom'
+
 import {
   Paper,
   TextField,
@@ -9,14 +16,19 @@ import {
   FormControlLabel,
 } from '@material-ui/core';
 
-import { hashPassword } from '../../crypto';
-import { withAuth }     from '../../auth';
-import useStyles        from './styles';
+import { mapBasketActionsProps } from '../../basket';
+import { hashPassword }          from '../../crypto';
+import { withAuth }              from '../../auth';
+import useStyles                 from './styles';
 
-export default withAuth(function(props){
+export default withAuth( function(props){
 
-    const history = useHistory();
-    const classes = useStyles();
+    const history      = useHistory();
+    const classes      = useStyles();
+    const dispatch     = useDispatch();
+    const authRequired = useSelector( state => state.basket.authRequired );
+
+    const { basketActions } = mapBasketActionsProps(dispatch);
 
     const [ showPassword, setShowPassword ] = React.useState(false);
 
@@ -45,8 +57,14 @@ export default withAuth(function(props){
         if ( ! token ) throw new Error('login failed');
         const user = await resp.json();
         props.authActions.success(user,token,field.remember);
+
         // auf startseite umleiten
-        history.push('/');
+        if ( authRequired ){
+          basketActions.returnToBasket();
+          history.push('/basket');
+        }
+        else history.push('/');
+
       } catch (e){
         setError(e);
       }
@@ -57,6 +75,11 @@ export default withAuth(function(props){
 
     return ( <div className={classes.wrapper}>
       <Paper className={classes.paper}>
+        { ! authRequired ? null :
+          <Paper className={classes.error}>
+            Um ihre Bestellung abschließen zu können...
+          </Paper>
+        }
         { ! error ? null :
           <Paper className={classes.error}>{error.toString()}</Paper>
         }

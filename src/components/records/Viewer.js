@@ -2,6 +2,7 @@ import React from 'react';
 import { Card, ListGroup, ListGroupItem, Row, Col, Button } from 'react-bootstrap'
 import gif from '../../images/gif.gif'
 import { Link } from 'react-router-dom'
+import AddToBasket from '../basket/AddToBasket';
 
 function Editor({ match }) {
   const id = match.params.id
@@ -17,9 +18,10 @@ function Editor({ match }) {
   if ( ! record ) return null;
 
   return (
-    <Card style={{ width: '18rem' }} key={record._id} className="m-2 card-custom">
+    <Card style={{ width: '18rem', left:'50%', transform:'translate(-50%)' }} key={record._id} className="m-2 card-custom">
       <Card.Img variant="top" src={gif} />
       <Card.Body>
+        <AddToBasket product={record}/>
         <Card.Title>
           <div className='list-group-item list-group-item-dark' className='title'>
             {record.title}
