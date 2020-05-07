@@ -15,7 +15,7 @@ export default withBasket( function(
   const history = useHistory();
   if ( total === 0 ) return null;
   return (
-  <InputGroup>
+  <InputGroup style={{ position:'fixed', bottom:'10px', right:'10px', width:'fit-content', zIndex:'1' }}>
     <Button onClick={e => {
       if ( authRequired ) basketActions.returnToBasket();
       history.push('/basket');

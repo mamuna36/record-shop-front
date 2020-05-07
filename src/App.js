@@ -44,9 +44,7 @@ function App({auth,authActions}) {
       </Col>
     </Row>
 
-    <div className="navbar">
-      <BasketStatus/>
-    </div>
+    <BasketStatus/>
 
     <Switch>
       {/* Auth Kram */}
