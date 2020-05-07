@@ -21,7 +21,6 @@ function Editor({ match }) {
     <Card style={{ width: '18rem', left:'50%', transform:'translate(-50%)' }} key={record._id} className="m-2 card-custom">
       <Card.Img variant="top" src={gif} />
       <Card.Body>
-        <AddToBasket product={record}/>
         <Card.Title>
           <div className='list-group-item list-group-item-dark' className='title'>
             {record.title}
@@ -33,8 +32,8 @@ function Editor({ match }) {
         <div className='list-group-item list-group-item-dark list-group-item-action'>{record.artist}</div>
         <div className='list-group-item list-group-item-dark list-group-item-action'>{record.price}€</div>
       </ListGroup>
-      <Card.Body>
-        <Link to="/">Home</Link>
+      <Card.Body style={{ display:'flex', justifyContent:'center' }}>
+        <AddToBasket product={record}/>
       </Card.Body>
     </Card>
   )

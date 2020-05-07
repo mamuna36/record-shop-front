@@ -9,7 +9,7 @@ import {
 export default withBasket( function({basketActions,product}){
   const [count,setCount] = React.useState(1);
   return (
-    <InputGroup>
+    <InputGroup style={{width:'fit-content'}}>
       <Button onClick={e => basketActions.add(product,count)}>Add to Basket</Button>
       <InputGroup.Append>
         <Button variant="warning" onClick={e => setCount(Math.min(10,count+1)) }>+</Button>

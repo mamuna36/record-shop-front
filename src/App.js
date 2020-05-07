@@ -28,6 +28,7 @@ function App({auth,authActions}) {
 
     <Row className='row-custom'>
       <Col className='d-flex flex-row justify-content-center'>
+        <Link className='link' to="/" ><div className='link col-custom'>Home</div></Link>
         <IfAdmin>
           <Link className='link' to="/admin/records/" ><div className='link col-custom'>Records</div></Link>
           <Link className='link' to="/admin/users/" ><div className='link col-custom'>Users</div></Link>
