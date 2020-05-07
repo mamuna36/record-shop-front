@@ -27,24 +27,24 @@ function App({auth,authActions}) {
     <div className="backdrop">&nbsp;</div>
 
     <Row className='row-custom'>
-      <IfAdmin>
-        <Col className='d-flex flex-row justify-content-center'>
+      <Col className='d-flex flex-row justify-content-center'>
+        <IfAdmin>
           <Link className='link' to="/admin/records/" ><div className='link col-custom'>Records</div></Link>
           <Link className='link' to="/admin/users/" ><div className='link col-custom'>Users</div></Link>
-        </Col>
-      </IfAdmin>
+        </IfAdmin>
+        <IfNotAuth>
+          <Link className='link' to="/login"><div className='link col-custom'>Anmelden</div></Link>
+          <Link className='link' to="/register"><div className='link col-custom'>Registrieren</div></Link>
+        </IfNotAuth>
+        <IfAuth>
+          <Link className='link' to="/profile"><div className='link col-custom'>{firstName} {lastName}</div></Link>
+          <Link className='link' to="/orders"><div className='link col-custom'>Bestellungen</div></Link>
+          <Link className='link' to="/logout"><div className='link col-custom'>Abmelden</div></Link>
+        </IfAuth>
+      </Col>
     </Row>
 
     <div className="navbar">
-      <IfNotAuth>
-        <Link to="/login">Anmelden</Link>
-        <Link to="/register">Registrieren</Link>
-      </IfNotAuth>
-      <IfAuth>
-        <Link to="/profile">{firstName} {lastName}</Link>
-        <Link to="/orders">Bestellungen</Link>
-        <Link to="/logout">Abmelden</Link>
-      </IfAuth>
       <BasketStatus/>
     </div>
 
