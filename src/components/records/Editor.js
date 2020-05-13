@@ -12,33 +12,29 @@ function Editor({match,auth:{token}}) {
 
   if ( ! abgerufen ){
     setAbgerufen(true)
-    fetch(`/records/${id}`,{headers:{"x-auth":token}})
-    .then( response => response.json() )
-    .then( data => setDaten(data));
-    }
-    if (!record) return null
-    console.log(record)
-    const change = e => setDaten( {
-      ...record,
-      [e.target.name]: e.target.value
-    })
-    const submit = e =>{
-      e.preventDefault()
-      fetch(`/records/${id}`,{
-        method:"PUT",
-        headers:{"Content-Type":"application/json"},
-        body:JSON.stringify( record)})
-        .then( response => response.json() )
-        .then( data => setDaten(data))
-    }
+    window.Axios.get(`/records/${id}`)
+    .then( result => setDaten(result.data) );
+  }
 
-    const remove = e =>{
-      e.preventDefault();
-      if(!window.confirm('Wirklich?!?!?') ) return
-      fetch(`/records/${id}`,{method:"DELETE" })
-        .then( response => response.json() )
-        .then( data => console.log("und hop"))
-    }
+  if (!record) return null
+
+  const change = e => setDaten( {
+    ...record,
+    [e.target.name]: e.target.value
+  })
+
+  const submit = e =>{
+    e.preventDefault()
+    window.Axios.put(`/records/${id}`, record )
+    .then( result => setDaten(result.data) )
+  }
+
+  const remove = e =>{
+    e.preventDefault();
+    if(!window.confirm('Wirklich?!?!?') ) return
+    window.Axios.delete(`/records/${id}`)
+    .then( data => console.log("und hop"))
+  }
 
   return (
 

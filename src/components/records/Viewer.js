@@ -11,10 +11,10 @@ function Editor({ match }) {
 
   if ( ! abgerufen ){
     setAbgerufen(true)
-    fetch(`/records/${id}`)
-    .then( response => response.json() )
-    .then( data => setDaten(data));
-    }
+    window.Axios.get(`/records/${id}`)
+    .then( result => setDaten(result.data));
+  }
+
   if ( ! record ) return null;
 
   return (

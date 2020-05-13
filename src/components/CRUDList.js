@@ -23,7 +23,7 @@ function CRUDList({
   });
 
   if ( ! abgerufen )
-    fetch(
+    window.Axios.get(
       `${restPath}?pageNumber=${meta.pageNumber}&`+
       `recordsPerPage=${meta.recordsPerPage}&`+
       `sortField=${meta.sortField}&`+
@@ -32,8 +32,7 @@ function CRUDList({
       `search=${meta.search}`,{
         headers:{'x-auth':window.AUTH_TOKEN}
       })
-    .then( response => response.json() )
-    .then( ({ list, count }) => {
+    .then( ({ data : { list, count } }) => {
       setAbgerufen(true);
       setDaten(list);
       setMeta({ ...meta, numberOfRecords: count });

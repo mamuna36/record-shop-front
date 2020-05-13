@@ -9,17 +9,16 @@ function FrontpageList() {
   const [abgerufen, setAbgerufen] = React.useState(false);
   const [daten, setDaten] = React.useState(false);
   if ( ! abgerufen )
-    fetch(
+    window.Axios.get(
     `/records/?pageNumber=0&`+
     `recordsPerPage=6&`+
     `sortField=price&`+
     `sortOrder=-1&`+
     `searchField=title&`+
     `search=`)
-    .then(response => response.json())
-    .then(records => {
+    .then( result => {
       setAbgerufen(true);
-      setDaten(records.list);
+      setDaten(result.data.list);
     })
 
   if ( ! daten ) return null;

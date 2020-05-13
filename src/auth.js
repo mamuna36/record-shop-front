@@ -2,6 +2,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { useHistory, Route } from 'react-router-dom';
+import Axios from 'axios';
+
+window.Axios = Axios;
 
 const defaultState = {
   verified: false,
@@ -35,6 +38,7 @@ export const authSideEffects = store => () => {
   if ( remember )
        window.localStorage.setItem('record-shop-auth-data',JSON.stringify({user,token}));
   else window.localStorage.removeItem('record-shop-auth-data');
+  Axios.defaults.headers.common['x-auth'] = token;
   window.AUTH_TOKEN = token;
   window.USER       = user;
 }
@@ -115,14 +119,9 @@ withAuth(
         // sende ein fetch auf die resource die uns das user objekt gibt
         // nur ein angemeldeter benutzer mit gueltigem token kann die anfrage
         // machen
-        fetch(`/users/${user.id}`,{headers:{'x-auth':token}})
-        .catch( error => false )
-        .then( response => {
-          if ( response.status === 200 ) return response.json()
-          return false;
-        })
+        Axios.get(`/users/${user.id}`, { headers: { 'x-auth':token } })
         .then( result => {
-          if ( result ) success( result, token, true );
+          if ( result.status === 200 ) success( result.data, token, true );
           else localStorage.removeItem('record-shop-auth-data');
         });
       }

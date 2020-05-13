@@ -54,15 +54,10 @@ export default function({match}){
   const submit = async e => {
     e.preventDefault()
     try {
-      const resp = await fetch(
-        `/users/changePassword/${token}`, {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            password: hashPassword(field.password),
-          })
+      const result = await window.Axios.put( `/users/changePassword/${token}`, {
+        password: hashPassword(field.password)
       });
-      if ( resp.status === 200 ){
+      if ( result.status === 200 ){
         history.push('/login');
       } else {
         setError(new Error('Token ist ungültig!'));

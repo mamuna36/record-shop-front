@@ -19,8 +19,8 @@ export default function(props){
 
     const submit = async e => {
       try {
-        const resp = await fetch(`/users/reset/${field.email}`);
-        if ( resp.status === 200 ){
+        const result = await window.Axios.get(`/users/reset/${field.email}`);
+        if ( result.status === 200 ){
           setError('ok ist unterwegs');
         } else {
           throw new Error('Nicht möglich!');

@@ -44,7 +44,7 @@ function App({auth,authActions}) {
           <Link className='link' to="/register"><div className='link col-custom'>Registrieren</div></Link>
         </IfNotAuth>
         <IfAuth>
-          <Link className='link' to="/profile"><div className='link col-custom'>{firstName} {lastName}</div></Link>
+          {/* <Link className='link' to="/profile"><div className='link col-custom'>{firstName} {lastName}</div></Link> */}
           <Link className='link' to="/orders"><div className='link col-custom'>Bestellungen</div></Link>
           <Link className='link' to="/logout"><div className='link col-custom'>Abmelden</div></Link>
         </IfAuth>

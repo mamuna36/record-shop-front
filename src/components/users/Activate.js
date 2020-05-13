@@ -18,10 +18,9 @@ export default function({match}){
   // wenn die aktivierung noch nicht erfolgt ist
   //   sende anfrage an das backend und verabeite das ergebnis
   if ( ! activated ){
-    fetch(`/users/activate/${token}`)
-    .then( response => response.json() )
+    window.Axios.get(`/users/activate/${token}`)
     .then( result => {
-      if ( result.status === "success" ){
+      if ( result.data.status === "success" ){
         setActivated(true); // aktivierung erfolgreich
       } else {
         setError('Dieser Link ist verbraucht!')

@@ -9,32 +9,28 @@ function Editor({match,auth:{token}}) {
   const [user,setUser]           = React.useState(false);
   if ( ! abgerufen ){
     setAbgerufen(true)
-    fetch(`/users/${id}`,{headers:{'x-auth':token}})
-    .then( response => response.json() )
-    .then( data => setUser(data));
+    window.Axios.get(`/users/${id}`)
+    .then( result => setUser(result.data) );
     }
-    if (!user) return null
-    console.log(user)
+
+    if ( ! user ) return null
+
     const change = e => setUser( {
       ...user,
       [e.target.name]: e.target.value
-    })
+    });
+
     const submit = e =>{
       e.preventDefault()
-      fetch(`/users/${id}`,{
-        method:"PUT",
-        headers:{"Content-Type":"application/json",'x-auth':token},
-        body:JSON.stringify( user)})
-        .then( response => response.json() )
-        .then( data => setUser(data))
+      window.Axios.put(`/users/${id}`, user )
+      .then( result => setUser(result.data) )
     }
 
     const remove = e =>{
       e.preventDefault();
       if(!window.confirm('Wirklich?!?!?') ) return
-      fetch(`/users/${id}`,{method:"DELETE" })
-        .then( response => response.json() )
-        .then( data => console.log("und hop"))
+      window.Axios.delete(`/users/${id}`)
+      .then( data => console.log("und hop"))
     }
 
   return (

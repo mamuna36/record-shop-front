@@ -42,20 +42,15 @@ export default withAuth( function(props){
 
     const submit = async e => {
       try {
-        const resp = await fetch(
-          '/users/login', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              email: field.email,
-              password: hashPassword(field.password)
-            })
+        const result = await window.Axios.post( '/users/login', {
+          email: field.email,
+          password: hashPassword(field.password)
         });
         // das auth token steht in dem http header x-auth
         // (siehe backend/controller/users.js:loginController)
-        const token = resp.headers.get('x-auth');
+        const token = result.headers['x-auth'];
         if ( ! token ) throw new Error('login failed');
-        const user = await resp.json();
+        const user = result.data;
         props.authActions.success(user,token,field.remember);
 
         // auf startseite umleiten

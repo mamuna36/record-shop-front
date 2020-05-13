@@ -60,22 +60,17 @@ export default function(){
   const submit = async e => {
     e.preventDefault()
     try {
-      const resp = await fetch(
-        '/users/', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            firstName,
-            lastName,
-            email,
-            password: hashPassword(field.password),
-            address: {
-              street,
-              city
-            }
-          })
+      const result = await window.Axios.post( '/users/', {
+        firstName,
+        lastName,
+        email,
+        password: hashPassword(field.password),
+        address: {
+          street,
+          city
+        }
       });
-      if ( resp.status === 200 ){
+      if ( result.status === 200 ){
         history.push('/');
       } else {
         setError(new Error('Benutzer Existiert'));

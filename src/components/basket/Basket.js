@@ -31,19 +31,12 @@ const buy = async ( basket, auth, basketActions, history ) => {
       order.record.push(product._id);
     });
     console.log('direkt zum paket', order);
-    const response = await fetch(
-      `/orders/`, {
-      method: "POST",
-      headers: {
-        'content-type': 'application/json',
-        'x-auth': auth.token
-      },
-      body: JSON.stringify( order )
-    });
-    const result = await response.json();
-    console.log('bestellt', result);
-    history.push('/thanks');
-    basketActions.clear();
+    const result = await window.Axios.post( `/orders/`, order );
+    if ( result.status === 200 ) {
+      console.log('bestellt', result);
+      history.push('/thanks');
+      basketActions.clear();
+    }
   } else {
     // redirect zur registierung / anmeldung
     console.log('erstmal papierkram');

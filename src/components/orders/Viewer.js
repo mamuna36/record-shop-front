@@ -13,35 +13,16 @@ function Editor({ match, auth:{token}}) {
 
   if ( ! abgerufen ){
     setAbgerufen(true)
-    fetch(`/orders/${id}`,{headers:{"x-auth":token}})
-    .then( response => response.json() )
-    .then( data => setDaten(data));
+    window.Axios.get(`/orders/${id}`)
+    .then( result => setDaten(result.data) );
   }
 
-  if (!order) return null
-  console.log(order)
+  if ( ! order ) return null
+
   const change = e => setDaten( {
     ...order,
     [e.target.name]: e.target.value
   })
-
-  const submit = e =>{
-    e.preventDefault()
-    fetch(`/orders/toggle/${id}`,{
-      method:"PUT",
-      headers:{"Content-Type":"application/json","x-auth":token},
-      body:JSON.stringify( order)})
-      .then( response => {
-        if ( response.status !== 200 ){
-          history.push('/login');
-          return false
-        }
-        return response.json()
-      })
-      .then( data => {
-        setDaten(data)
-      })
-  }
 
   if ( order && order.error ) return <h1>ouch</h1>;
 
