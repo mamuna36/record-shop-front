@@ -6,7 +6,7 @@ import CRUDList from '../CRUDList';
 
 function List() {
   const fieldNames = [ 'firstName','lastName','fullName','email' ];
-  const sortFields = [ 'firstName','lastName','email' ];
+  const sortFields = [ 'firstName','lastName','email','role' ];
   const restPath = '/users/';
   const renderListItem = user => (
   <div className='user-custom m-3'>
