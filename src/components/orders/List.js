@@ -8,10 +8,9 @@ import CRUDList from '../CRUDList';
 
 import gif from '../../images/gif.gif'
 
-function List(){
+function List({restPath="/orders/",linkPath="/admin/orders/"}){
   const fieldNames     = [ 'user', 'date' ];
   const sortFields     = fieldNames;
-  const restPath       = '/orders/';
   const renderListItem = order => (
   <Card style={{ width: '18rem' }} key={order._id} className="m-2 card-custom">
     <Card.Img variant="top" src={gif} />
@@ -28,7 +27,7 @@ function List(){
       )}
     </ListGroup>
     <Card.Body>
-      <Link className='d-flex align-items-center' to={`/admin/orders/${order._id}`}>
+      <Link className='d-flex align-items-center' to={`${linkPath}${order._id}`}>
         <Button className='btn btn-dark button-custom'>View Order</Button>
       </Link>
     </Card.Body>
