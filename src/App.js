@@ -24,7 +24,7 @@ import OrderViewer         from './components/orders/Viewer';
 import OrderEditor         from './components/orders/Editor';
 import OrderList           from './components/orders/List';
 
-import { IfAdmin, IfAuth, IfNotAuth, Logout, withAuth } from './auth'
+import { IfAdmin, IfAuth, IfNotAuth, Logout, AdminRoute, AuthRoute, withAuth } from './auth'
 
 function App({auth,authActions}) {
   const { firstName, lastName } = auth.user;
@@ -55,26 +55,26 @@ function App({auth,authActions}) {
 
     <Switch>
       {/* Auth Kram */}
-      <Route path="/login"             component={Login} />
-      <Route path="/logout"            component={Logout} />
-      <Route path="/register"          component={Register} />
-      <Route path="/reset/:token"      component={ResetPassword} />
-      <Route path="/reset"             component={Reset} />
-      <Route path="/activate/:token"   component={Activate} />
+      <Route path="/login"                  component={Login} />
+      <Route path="/logout"                 component={Logout} />
+      <Route path="/register"               component={Register} />
+      <Route path="/reset/:token"           component={ResetPassword} />
+      <Route path="/reset"                  component={Reset} />
+      <Route path="/activate/:token"        component={Activate} />
       {/* Admin Kram */}
-      <Route path="/admin/orders/:id"  component={OrderEditor} />
-      <Route path="/admin/orders/"     component={OrderList} />
-      <Route path="/admin/records/:id" component={RecordEditor} />
-      <Route path="/admin/records/"    component={RecordList} />
-      <Route path="/admin/users/:id"   component={UserEditor} />
-      <Route path="/admin/users/"      component={UserList} />
+      <AdminRoute path="/admin/orders/:id"  component={OrderEditor} />
+      <AdminRoute path="/admin/orders/"     component={OrderList} />
+      <AdminRoute path="/admin/records/:id" component={RecordEditor} />
+      <AdminRoute path="/admin/records/"    component={RecordList} />
+      <AdminRoute path="/admin/users/:id"   component={UserEditor} />
+      <AdminRoute path="/admin/users/"      component={UserList} />
       {/* User Kram */}
-      <Route path="/orders/:id"        component={OrderViewer} />
-      <Route path="/orders"            component={Orders} />
-      <Route path="/records/:id"       component={RecordViewer} />
-      <Route path="/basket"            component={Basket} />
-      <Route path="/thanks"            component={Thanks} />
-      <Route path="/"                  component={FrontpageRecordList} />
+      <AuthRoute path="/orders/:id"         component={OrderViewer} />
+      <AuthRoute path="/orders"             component={Orders} />
+      <AuthRoute path="/records/:id"        component={RecordViewer} />
+      <AuthRoute path="/basket"             component={Basket} />
+      <AuthRoute path="/thanks"             component={Thanks} />
+      <Route path="/"                       component={FrontpageRecordList} />
     </Switch>
 
   </Container>;

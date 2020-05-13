@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { connect } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useHistory, Route } from 'react-router-dom';
 
 const defaultState = {
   verified: false,
@@ -81,7 +81,7 @@ export const IfGroup = withAuth(
 
 // komponente um elemente für angemeldete benutzer einzublenden
 export const IfAuth = withAuth(
-  function({auth,authActions,children,group}){
+  function({auth,children}){
     return auth &&
       auth.user &&
       auth.verified ? children : null;
@@ -139,3 +139,14 @@ export const Logout = withAuth(
     return null;
   }
 );
+
+export const AdminRoute = withAuth( (props)=> {
+  if ( ! props.auth || props.auth.user.role !== 'Admin' ) return null;
+  return <Route {...props}/>;
+});
+
+export const AuthRoute = withAuth( (props)=> {
+  console.log(props.auth);
+  if ( ! props.auth || ! props.auth.verified ) return null;
+  return <Route {...props}/>;
+});
