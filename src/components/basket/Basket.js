@@ -43,6 +43,7 @@ const buy = async ( basket, auth, basketActions, history ) => {
     const result = await response.json();
     console.log('bestellt', result);
     history.push('/thanks');
+    basketActions.clear();
   } else {
     // redirect zur registierung / anmeldung
     console.log('erstmal papierkram');
