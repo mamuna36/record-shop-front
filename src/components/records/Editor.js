@@ -3,16 +3,16 @@ import React from 'react';
 import { Card, ListGroup, ListGroupItem, Row, Col, Button } from 'react-bootstrap'
 import gif from '../../images/gif.gif'
 
-function Editor({ match}) {
+import { withAuth } from '../../auth';
+
+function Editor({match,auth:{token}}) {
   const id = match.params.id
   const [abgerufen,setAbgerufen] = React.useState(false);
   const [record,setDaten]        = React.useState(false);
 
-
-
   if ( ! abgerufen ){
     setAbgerufen(true)
-    fetch(`/records/${id}`)
+    fetch(`/records/${id}`,{headers:{"x-auth":token}})
     .then( response => response.json() )
     .then( data => setDaten(data));
     }
@@ -61,4 +61,4 @@ function Editor({ match}) {
   )
 }
 
-export default Editor;
+export default withAuth( Editor );

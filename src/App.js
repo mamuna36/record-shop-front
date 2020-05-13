@@ -19,6 +19,10 @@ import FrontpageRecordList from './components/records/FrontpageList';
 import BasketStatus        from './components/basket/BasketStatus';
 import Basket              from './components/basket/Basket';
 import Thanks              from './components/basket/Thanks';
+import Orders              from './components/orders/UserList';
+import OrderViewer         from './components/orders/Viewer';
+import OrderEditor         from './components/orders/Editor';
+import OrderList           from './components/orders/List';
 
 import { IfAdmin, IfAuth, IfNotAuth, Logout, withAuth } from './auth'
 
@@ -33,6 +37,7 @@ function App({auth,authActions}) {
         <IfAdmin>
           <Link className='link' to="/admin/records/" ><div className='link col-custom'>Records</div></Link>
           <Link className='link' to="/admin/users/" ><div className='link col-custom'>Users</div></Link>
+          <Link className='link' to="/admin/orders/" ><div className='link col-custom'>Orders</div></Link>
         </IfAdmin>
         <IfNotAuth>
           <Link className='link' to="/login"><div className='link col-custom'>Anmelden</div></Link>
@@ -57,11 +62,15 @@ function App({auth,authActions}) {
       <Route path="/reset"             component={Reset} />
       <Route path="/activate/:token"   component={Activate} />
       {/* Admin Kram */}
+      <Route path="/admin/orders/:id"  component={OrderEditor} />
+      <Route path="/admin/orders/"     component={OrderList} />
       <Route path="/admin/records/:id" component={RecordEditor} />
       <Route path="/admin/records/"    component={RecordList} />
       <Route path="/admin/users/:id"   component={UserEditor} />
       <Route path="/admin/users/"      component={UserList} />
       {/* User Kram */}
+      <Route path="/orders/:id"        component={OrderViewer} />
+      <Route path="/orders"            component={Orders} />
       <Route path="/records/:id"       component={RecordViewer} />
       <Route path="/basket"            component={Basket} />
       <Route path="/thanks"            component={Thanks} />
