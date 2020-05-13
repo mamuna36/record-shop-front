@@ -71,9 +71,10 @@ function App({auth,authActions}) {
       {/* User Kram */}
       <AuthRoute path="/orders/:id"         component={OrderViewer} />
       <AuthRoute path="/orders"             component={Orders} />
-      <AuthRoute path="/records/:id"        component={RecordViewer} />
-      <AuthRoute path="/basket"             component={Basket} />
       <AuthRoute path="/thanks"             component={Thanks} />
+      {/* Public Kram */}
+      <Route path="/basket"                 component={Basket} />
+      <Route path="/records/:id"            component={RecordViewer} />
       <Route path="/"                       component={FrontpageRecordList} />
     </Switch>
 
