@@ -18,7 +18,7 @@ function FrontpageList() {
     `search=`)
     .then( result => {
       setAbgerufen(true);
-      setDaten(result.data.list);
+      setDaten(result.data);
     })
 
   if ( ! daten ) return null;
@@ -28,7 +28,7 @@ function FrontpageList() {
     <Col className="d-flex flex-wrap justify-content-center">
       { daten.map( record => (
       <Card style={{ width: '18rem' }} key={record._id} className="m-2 card-custom">
-        <Card.Img variant="top" src={gif} />
+        <Card.Img variant="top" src={record.img} />
         <Card.Body>
           <Card.Title ><h2 className='title'>{record.title}<br/>({record.artist})</h2></Card.Title>
         </Card.Body>
