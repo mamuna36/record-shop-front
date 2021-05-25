@@ -64,7 +64,7 @@ export default function(){
         firstName,
         lastName,
         email,
-        password: hashPassword(field.password),
+        password: field.password, //hashPassword(field.password),
         address: {
           street,
           city

@@ -44,7 +44,7 @@ export default withAuth( function(props){
       try {
         const result = await window.Axios.post( '/users/login', {
           email: field.email,
-          password: hashPassword(field.password)
+          password: field.password //hashPassword(field.password)
         });
         // das auth token steht in dem http header x-auth
         // (siehe backend/controller/users.js:loginController)

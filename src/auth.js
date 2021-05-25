@@ -37,7 +37,10 @@ export const authSideEffects = store => () => {
   // auth token speichern (alle tabs)
   if ( remember )
        window.localStorage.setItem('record-shop-auth-data',JSON.stringify({user,token}));
-  else window.localStorage.removeItem('record-shop-auth-data');
+  else {
+    window.localStorage.removeItem('record-shop-auth-data');
+    window.sessionStorage.setItem('record-shop-auth-data',JSON.stringify({user,token}))
+  }
   Axios.defaults.headers.common['x-auth'] = token;
   window.AUTH_TOKEN = token;
   window.USER       = user;
@@ -112,7 +115,7 @@ withAuth(
     if ( ! loading ){
       setLoading(true);
       // versuche aus localStorage einen gepseicherten auth-zustand zu laden
-      const existingToken = localStorage.getItem('record-shop-auth-data');
+      const existingToken = localStorage.getItem('record-shop-auth-data') || sessionStorage.getItem('record-shop-auth-data');
       if ( existingToken ){
         // parse json aud sem sting aus localStorage und destrukturiere user daten
         const {user,token,verified,remember} = JSON.parse(existingToken);

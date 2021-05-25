@@ -20,7 +20,7 @@ function List({restPath="/orders/",linkPath="/admin/orders/"}){
     <ListGroup className="list-group-flush">
       <ListGroupItem className='list-group-item list-group-item-dark list-group-item-action'>{order.user.email}</ListGroupItem>
       <ListGroupItem className='list-group-item list-group-item-dark list-group-item-action'>{order.date}</ListGroupItem>
-      { order.record.map( (record,index)=>
+      { order.records.map( (record,index)=>
         <ListGroupItem className='list-group-item list-group-item-dark list-group-item-action'>
           {record.title}
         </ListGroupItem>

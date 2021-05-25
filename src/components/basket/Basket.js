@@ -23,12 +23,12 @@ const buy = async ( basket, auth, basketActions, history ) => {
   if ( auth.verified ){
     // dem backend die order uebergeben
     const order = {
-      quantity: [],
-      record:   []
+      quantity: 0,
+      records:   []
     }
     basket.items.forEach( ({ count, product })=> {
-      order.quantity.push(count);
-      order.record.push(product._id);
+      order.quantity += 1;
+      order.records.push(product._id);
     });
     console.log('direkt zum paket', order);
     const result = await window.Axios.post( `/orders/`, order );

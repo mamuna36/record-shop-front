@@ -12,8 +12,8 @@ function FrontpageList() {
     window.Axios.get(
     `/records/?pageNumber=0&`+
     `recordsPerPage=6&`+
-    `sortField=price&`+
-    `sortOrder=-1&`+
+    `sortField=title&`+
+    `sortOrder=1&`+
     `searchField=title&`+
     `search=`)
     .then( result => {

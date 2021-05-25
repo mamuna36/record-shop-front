@@ -19,7 +19,7 @@ function Editor({ match }) {
 
   return (
     <Card style={{ width: '18rem', left:'50%', transform:'translate(-50%)' }} key={record._id} className="m-2 card-custom">
-      <Card.Img variant="top" src={gif} />
+      <Card.Img variant="top" src={record.img} />
       <Card.Body>
         <Card.Title>
           <div className='list-group-item list-group-item-dark' className='title'>
