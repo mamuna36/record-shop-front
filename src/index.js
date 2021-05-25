@@ -16,7 +16,7 @@ import { CheckAuth } from './auth';
 
 ReactDOM.render(
   <Provider store={store}>
-    <BrowserRouter>
+    <BrowserRouter basename={process.env.PUBLIC_URL}>
       <CheckAuth/>
       <CssBaseline/>
       <App/>
