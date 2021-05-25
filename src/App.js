@@ -2,6 +2,7 @@
 import React from 'react';
 import { Route, Switch, Link } from 'react-router-dom';
 import './App.css'
+import Axios from 'axios'
 
 import { Container, Row, Col } from 'react-bootstrap'
 
@@ -25,6 +26,12 @@ import OrderEditor         from './components/orders/Editor';
 import OrderList           from './components/orders/List';
 
 import { IfAdmin, IfAuth, IfNotAuth, Logout, AdminRoute, AuthRoute, withAuth } from './auth'
+
+console.log("env", process.env.NODE_ENV)
+
+if(process.env.NODE_ENV != 'development') {
+  Axios.defaults.baseURL = 'https://record-shop-maxim.herokuapp.com'
+}
 
 function App({auth,authActions}) {
   const { firstName, lastName } = auth.user;
