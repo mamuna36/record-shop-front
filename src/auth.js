@@ -69,6 +69,7 @@ export const withAuth = connect(
 // komponente um admin-elemente einzublenden
 export const IfAdmin = withAuth(
   function({auth,authActions,children}){
+    console.log("IfAdmin", auth, auth.user, auth.user.role)
     return auth &&
       auth.user &&
       auth.user.role &&

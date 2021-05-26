@@ -32,10 +32,10 @@ function CRUDList({
       `search=${meta.search}`,{
         headers:{'x-auth':window.AUTH_TOKEN}
       })
-    .then( ({ data : { list, count } }) => {
+    .then( ({ data : list }) => {
       setAbgerufen(true);
       setDaten(list);
-      setMeta({ ...meta, numberOfRecords: count });
+      //setMeta({ ...meta, numberOfRecords: count });
     })
 
   // rechne Anzahl der Seiten aus

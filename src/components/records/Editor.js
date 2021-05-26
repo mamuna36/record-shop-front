@@ -18,14 +18,24 @@ function Editor({match,auth:{token}}) {
 
   if (!record) return null
 
-  const change = e => setDaten( {
-    ...record,
-    [e.target.name]: e.target.value
-  })
+  const change = e => {
+    setDaten( {
+      ...record, // copy of original data
+      [e.target.name]: e.target.name == "img" ? e.target.files[0] : e.target.value // replace one property value
+    })
+  }
 
   const submit = e =>{
     e.preventDefault()
-    window.Axios.put(`/records/${id}`, record )
+    const formData = new FormData()
+    for(let key in record) {
+      if(key == "img") {
+        if(typeof record[key] == "object") formData.append(key, record[key], record[key].name)
+      } else {
+        formData.append(key, record[key])
+      }
+    }
+    window.Axios.put(`/records/${id}`, formData )
     .then( result => setDaten(result.data) )
   }
 
@@ -39,7 +49,7 @@ function Editor({match,auth:{token}}) {
   return (
 
     <Card style={{ width: '18rem' }} key={record._id} className="m-2 card-custom">
-              <Card.Img variant="top" src={gif} />
+              <Card.Img variant="top" src={"http://localhost:3000/" + record.img} />
               <Card.Body>
                 <Card.Title ><input className='list-group-item list-group-item-dark' name ="title" value={record.title} onChange={change} className='title' value={record.title}/></Card.Title>
               </Card.Body>
@@ -47,6 +57,7 @@ function Editor({match,auth:{token}}) {
                 <input name ="year" value={record.year} onChange={change} className=' list-group-item-action' value={record.year}/>
                 <input name ="artist" value={record.artist} onChange={change} className='list-group-item list-group-item-dark list-group-item-action' value={record.artist}/>
                 <input name ="price" value={record.price} onChange={change} className='list-group-item list-group-item-dark list-group-item-action' value={record.price}/>
+                <input name = "img" type="file" onChange={change} className='list-group-item list-group-item-dark list-group-item-action'/>
               </ListGroup>
               <Card.Body>
                <Button className="btn btn-dark mr-3" onClick={submit}>SAVE  </Button>
