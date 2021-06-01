@@ -2,6 +2,7 @@
 import React from 'react';
 import { Card, ListGroup, ListGroupItem, Row, Col, Button } from 'react-bootstrap'
 import gif from '../../images/gif.gif'
+import getBEResource from '../../lib/getBEResource'
 
 import { withAuth } from '../../auth';
 
@@ -49,7 +50,7 @@ function Editor({match,auth:{token}}) {
   return (
 
     <Card style={{ width: '18rem' }} key={record._id} className="m-2 card-custom">
-              <Card.Img variant="top" src={"http://localhost:3000/" + record.img} />
+              <Card.Img variant="top" src={getBEResource(record.img)} />
               <Card.Body>
                 <Card.Title ><input className='list-group-item list-group-item-dark' name ="title" value={record.title} onChange={change} className='title' value={record.title}/></Card.Title>
               </Card.Body>

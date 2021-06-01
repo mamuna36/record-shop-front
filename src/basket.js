@@ -1,7 +1,10 @@
 
 import { connect } from 'react-redux';
+import cookies from 'react-cookies'
 
-const defaultState = {
+const cartCookie = cookies.load("cart")
+
+const defaultState = cartCookie || {
   items:       [],
   total:       0,
   records:     0,
@@ -26,6 +29,7 @@ const sumItUp = (basket)=> {
   basket.vat = ( basket.total / 1.19 ) * 0.19;
   basket.shippingFee = Math.ceil( basket.records / recordsPerPacket ) * feePerPacket;
   if ( basket.total > 100 ) basket.shippingFee *= 0.5;
+  cookies.save("cart", JSON.stringify(basket), { path: "/" })
   return basket;
 }
 

@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Route, Switch, Link } from 'react-router-dom';
 import './App.css'
 import Axios from 'axios'
@@ -27,14 +27,20 @@ import OrderList           from './components/orders/List';
 
 import { IfAdmin, IfAuth, IfNotAuth, Logout, AdminRoute, AuthRoute, withAuth } from './auth'
 
-console.log("env", process.env.NODE_ENV)
-
 if(process.env.NODE_ENV != 'development') {
-  Axios.defaults.baseURL = 'https://record-shop-maxim.herokuapp.com'
+  Axios.defaults.baseURL = process.env.REACT_APP_PROD_BACKEND_URL
 }
 
 function App({auth,authActions}) {
   const { firstName, lastName } = auth.user;
+  useEffect(() => {
+    const getCSRFToken = async () => {
+      const { data } = await Axios.get('/users/csrf-token')
+      Axios.defaults.headers.post['X-CSRF-Token'] = data.csrfToken
+    }
+
+    getCSRFToken()
+  }, [])
   return <Container fluid className='bg-container'>
     <div className="backdrop">&nbsp;</div>
 

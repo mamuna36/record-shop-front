@@ -35,13 +35,13 @@ export const authSideEffects = store => () => {
   // bei jeder änderung wir folgender callback aufgerufen
   const { auth: { remember, token, user } } = store.getState();
   // auth token speichern (alle tabs)
-  if ( remember )
+  /*if ( remember )
        window.localStorage.setItem('record-shop-auth-data',JSON.stringify({user,token}));
   else {
     window.localStorage.removeItem('record-shop-auth-data');
     window.sessionStorage.setItem('record-shop-auth-data',JSON.stringify({user,token}))
-  }
-  Axios.defaults.headers.common['x-auth'] = token;
+  }*/
+  //Axios.defaults.headers.common['x-auth'] = token;
   window.AUTH_TOKEN = token;
   window.USER       = user;
 }
